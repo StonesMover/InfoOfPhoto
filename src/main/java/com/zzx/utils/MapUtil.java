@@ -13,38 +13,31 @@ import org.apache.http.util.EntityUtils;
 
 import net.sf.json.JSONObject;
 
-public class BaiduMapUtil {
+public class MapUtil {
 	public static Map<String, String> getcitydetailbyjingwei(String jing, String wei) {
 		Map<String, Object> map = null;
 		Map<String, Object> map2 = null;
 		Map<String, Object> map3 = null;
 		Map<String, String> map4 = new HashMap<String, String>();
 		String url = "https://api.map.baidu.com/reverse_geocoding/v3/?ak=CHRcGG4l74naK5mMfjNttRrzGhWhv3kX&output=json&coordtype=wgs84ll&location="
-				+ jing + "," + wei;
+				+ jing + "," + wei;// 百度地图API
 
 		String url2 = "https://restapi.amap.com/v3/geocode/regeo?output=json&location=" + jing + "," + wei
 				+ "&key=307490ffbd3a513f9f24e62dfe486fb0&radius=1000&extensions=all";
-		System.out.println(url2);
+		// System.out.println(url2);// 高德地图API
 		try {
 			HttpClient client = HttpClientBuilder.create().build();// 构建一个Client
 			HttpGet get = new HttpGet(url2.toString()); // 构建一个GET请求
 			HttpResponse response = client.execute(get);// 提交GET请求
 			HttpEntity result = response.getEntity();// 拿到返回的HttpResponse的"实体"
-			System.out.println(result);
 			String content = EntityUtils.toString(result);
 			map = JsonUtil.parseJSON2Map(content); // 通过下面的函数将json转化为map
 
 			// 第二层
-			map2 = JsonUtil.parseJSON2Map(map.get("result").toString());
-			// 第三层
-			map3 = JsonUtil.parseJSON2Map(map2.get("location").toString());
+			map2 = JsonUtil.parseJSON2Map(map.get("regeocode").toString());
 
 			String address = map2.get("formatted_address").toString();
-			String lng = map3.get("lng").toString();
-			String lat = map3.get("lat").toString();
 			map4.put("address", address);
-			map4.put("lng", lng);
-			map4.put("lat", lat);
 
 		} catch (Exception e) {
 			e.printStackTrace();

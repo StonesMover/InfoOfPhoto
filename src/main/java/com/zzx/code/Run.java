@@ -2,7 +2,7 @@ package com.zzx.code;
 
 import java.util.Map;
 
-import com.zzx.utils.BaiduMapUtil;
+import com.zzx.utils.MapUtil;
 import com.zzx.utils.PictureUtil;
 
 public class Run {
@@ -21,7 +21,7 @@ public class Run {
 		System.out.println("拍摄时间: " + pic.get("Date/Time"));
 
 		// System.out.println(pic);
-		BaiduMapUtil bMapUtil = new BaiduMapUtil();
+		MapUtil bMapUtil = new MapUtil();
 		// 处理经纬度十分制
 
 		// String jingdu = pic.get("GPS Latitude").toString();
@@ -31,7 +31,6 @@ public class Run {
 		// String lat1 =
 		// bMapUtil.latitude_and_longitude_convert_to_decimal_system(weidu);
 		Map<String, String> map = bMapUtil.getcitydetailbyjingwei(lng, lat);
-		System.out.println(map);
 		System.out.println("拍摄地点: " + map.get("address"));
 	}
 }
